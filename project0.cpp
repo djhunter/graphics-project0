@@ -151,8 +151,8 @@ int main(void)
     glVertexAttribPointer(l_vCol, 3, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), (GLvoid*) (sizeof(glm::vec3)));
 
+    glUseProgram(program);
     glEnable(GL_DEPTH_TEST);
-
     glm::mat4 M, V, P, MVP;
     glm::vec3 eye = glm::vec3(0.0, 0.0, 5.0);
     glm::vec3 center = glm::vec3(0.0, 0.0, 0.0);
@@ -174,7 +174,6 @@ int main(void)
                         (float) glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
         MVP = P * V * M;
 
-        glUseProgram(program);
         glUniformMatrix4fv(l_MVP, 1, GL_FALSE, glm::value_ptr(MVP));
         glDrawArrays(GL_TRIANGLES, 0, 3*NUM_TRIANGLES);
 
