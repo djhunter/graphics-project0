@@ -131,6 +131,7 @@ int main(void)
     }
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+    glUseProgram(program);
 
     GLint l_MVP = glGetUniformLocation(program, "MVP");
     GLint l_vPos = glGetAttribLocation(program, "vPos");
@@ -151,7 +152,6 @@ int main(void)
     glVertexAttribPointer(l_vCol, 3, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), (GLvoid*) (sizeof(glm::vec3)));
 
-    glUseProgram(program);
     glEnable(GL_DEPTH_TEST);
     glm::mat4 M, V, P, MVP;
     glm::vec3 eye = glm::vec3(0.0, 0.0, 5.0);
