@@ -147,10 +147,12 @@ int main(void)
                  triangles.data(), GL_STATIC_DRAW);
     glEnableVertexAttribArray(l_vPos);
     glVertexAttribPointer(l_vPos, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex), (GLvoid*) 0);
+                          sizeof(Vertex), // stride
+                          reinterpret_cast<const GLvoid*>(0)); // offset
     glEnableVertexAttribArray(l_vCol);
     glVertexAttribPointer(l_vCol, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex), (GLvoid*) (sizeof(glm::vec3)));
+                          sizeof(Vertex),
+                          reinterpret_cast<const GLvoid*>(sizeof(glm::vec3)));
 
     glEnable(GL_DEPTH_TEST);
     glm::mat4 M, V, P, MVP;
@@ -168,10 +170,10 @@ int main(void)
         glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        ratio = width / (float) height;
+        ratio = static_cast<float>(width) / static_cast<float>(height);
         P = glm::perspective(0.50f, ratio, 1.0f, 100.0f);
-        M = glm::rotate(glm::mat4(1.0f),
-                        (float) glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        M = rotate(glm::mat4(1.0f), static_cast<float>(glfwGetTime()),
+                   glm::vec3(0.0f, 0.0f, 1.0f));
         MVP = P * V * M;
 
         glUniformMatrix4fv(l_MVP, 1, GL_FALSE, glm::value_ptr(MVP));
